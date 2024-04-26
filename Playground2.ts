@@ -1,24 +1,53 @@
 
+type Job = "scientific"|"Arts"|"Administrative"|"Medical"
+type PersonJson = {firstName :string , lastName :string , age :number ,job? :string}
+class Person <T extends string>{
+   
+   firstName : string;
+   lastName : string ;
+   age :number;
+   job :T
 
-interface Person {
-    name? :string;
-    age? :number
+
+  constructor(firstName :string , lastName :string , age :number  , job:T){
+       this.firstName = firstName;
+       this.lastName = lastName;
+       this.age= age;
+       this.job = job
+  }
+   
+  public describe():string{
+    return `${this.firstName} ${this.lastName} he is ${this.age} years old he works the ${this.job} field.`
+  }
+
+  public toJson ():PersonJson{
+       return {
+          firstName: this.firstName,
+          lastName:this.lastName,
+          age: this.age ,
+          job: this.job
+       }
+  }
+
 }
 
-type PartialPerson = Partial<Person>
+const Jeff :Person<Job> = new Person("Jeff" ,"bezos" ,45 , "Administrative")
 
 
-type RequiredPerson = Required<Person>
-
-type PickPerson = Pick<Person, "age">
-
-type OmitPerson = Omit<Person,"age">
 
 
-const ErrorMessages = {
-    InvalidEmail: "Invalid email",
-    InvalidPassword: "Invalid password",
-  } as const;
-  
-  // This will throw an error
-//   ErrorMessages.InvalidEmail = "New error message";
+class Doctor  extends Person <"Medical">{
+
+
+      constructor(firstname :string , lastName :string , age :number  ){
+        super(firstname,lastName, age , "Medical");
+      }
+    }
+
+
+
+const Idriss: Doctor = new Doctor("Idriss" , "ElHamidi" , 55)
+
+
+
+console.log(Idriss.toJson())
